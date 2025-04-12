@@ -1,5 +1,6 @@
 from enum import Enum
 import random
+from qiskit import QuantumCircuit, Aer, execute
 
 
 class Suit(Enum):
@@ -84,7 +85,6 @@ class Card:
         if not self.is_quantum:
             return self.measured_value
 
-        # If already measured, simply return the value.
         if self.measured_value is not None:
             return self.measured_value
 
@@ -92,9 +92,24 @@ class Card:
             if measurement_result not in self.state:
                 raise ValueError("Provided measurement result is not in the card's possible state.")
             self.measured_value = measurement_result
-        else:
-            self.measured_value = random.choice(self.state)
+            return self.measured_value
+
+        # --- Qiskit Measurement Simulation ---
+        qc = QuantumCircuit(1, 1)
+        qc.h(0)  # Superposition
+        qc.measure(0, 0)
+
+        backend = Aer.get_backend('qasm_simulator')
+        job = execute(qc, backend, shots=1)
+        result = job.result()
+        counts = result.get_counts()
+
+        measured_bit = int(max(counts, key=counts.get))  # 0 or 1
+
+        # Choose based on bit outcome
+        self.measured_value = self.state[measured_bit]
         return self.measured_value
+
 
     def __str__(self) -> str:
         """
