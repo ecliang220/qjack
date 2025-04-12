@@ -18,8 +18,8 @@ class Dealer:
             self.score+=card.get_value()
             if card.name.upper() == "ACE":
                 aces+=1
-        while total >21 and aces>0:
-            total-=10
+        while self.score >21 and aces>0:
+            self.score-=10
             aces-=1
         self.is_bust=self.score>21
     
