@@ -20,17 +20,15 @@ class Game:
             self.print_game_state()
             action = input("Hit, Stick, or Peek? (h/s/p): ").lower()
             if action == 'h':
-                if (self.player.calculate_score() > 21):
-                    break
-                else:
-                    self.player.add_card(self.deck.deal(1)[0])
+                self.player.add_card(self.deck.deal(1)[0])
             elif action == 's':
                 break
             elif action == 'p':
                 self.player.measure_hand()
-            self.player.calculate_score()
+            if (self.player.calculate_score() > 21):
+                break
 
-        self.player.measure_hand()
+        if not self.player.measure_used: self.player.measure_hand()
         self.player.calculate_score()
 
         # Dealer turn
@@ -48,7 +46,6 @@ class Game:
 
 
         print("-----------------------------------------")
-        if not self.player.measure_used: self.player.measure_hand()
         self.print_game_state()
         self.evaluate_winner()
 

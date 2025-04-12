@@ -24,11 +24,18 @@ class Player:
         ace_count = 0
 
         for card in self.hand:
-            value = card.measured_value if card.is_quantum else card.get_value()
+            if self.measure_used:
+                value = card.measured_value if card.is_quantum else card.get_value()
 
-            if value == 11:
-                ace_count += 1
-            total += value
+                if value == 11:
+                    ace_count += 1
+                total += value
+            else: 
+                value = card.get_quatum_low_value() if card.is_quantum else card.get_value()
+
+                if value == 11:
+                    ace_count += 1
+                total += value
 
         # Handle Ace logic: downgrade to 1 if total exceeds 21
         while total > 21 and ace_count > 0:

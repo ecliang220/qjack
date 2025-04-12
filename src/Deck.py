@@ -15,8 +15,8 @@ class Deck:
                 cards.append(Card(str(i), suit))
             cards.append(Card("Ace", suit))
             cards.append(Card("Jack", suit, True, [1, 11]))
-            cards.append(Card("Queen", suit, True, [5, -5]))
-            cards.append(Card("King", suit, True, [10, 0]))
+            cards.append(Card("Queen", suit, True, [-5, 5]))
+            cards.append(Card("King", suit, True, [0, 10]))
         return cards
 
     def shuffle(self):

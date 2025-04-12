@@ -107,6 +107,9 @@ class Card:
             return f"{self.name} of {self.suit.value} [Value: 1 or {self.measured_value}]"
         else:
             return f"{self.name} of {self.suit.value} [Value: {self.measured_value}]"
+        
+    def get_quatum_low_value(self):
+        return self.state[0]
 
 
 
