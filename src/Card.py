@@ -50,7 +50,7 @@ class Card:
             # For classical face cards (if not chosen as quantum), assume a value of 10.
             return 10
 
-    def getValue(self) -> int:
+    def get_value(self) -> int:
         """
         Getter for the card's value.
         
@@ -103,6 +103,8 @@ class Card:
         if self.is_quantum:
             state_info = f"Possible states: {self.state}" if self.measured_value is None else f"Measured value: {self.measured_value}"
             return f"{self.name} of {self.suit.value} [Quantum Card | {state_info}]"
+        elif self.name == 'Ace':
+            return f"{self.name} of {self.suit.value} [Value: 1 or {self.measured_value}]"
         else:
             return f"{self.name} of {self.suit.value} [Value: {self.measured_value}]"
 

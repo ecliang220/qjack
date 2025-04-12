@@ -3,7 +3,7 @@ from Game import Game
 
 def main():
     qJackGame = Game()
-    # qJackGame.play_round()
+    qJackGame.play_round()
 
 
 

@@ -1,5 +1,9 @@
 # Deck class, face cards are considered quantam, other are regular cards
 
+import random
+from Card import Card, Suit
+
+
 class Deck:
     def __init__(self):
         self.cards = self._generate_deck()
