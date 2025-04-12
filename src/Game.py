@@ -14,6 +14,7 @@ class Game:
         # Initial deal
         self.player.hand = self.deck.deal(2)
         self.dealer.cards = self.deck.deal(2)
+        self.player.measure_used = False
 
         # Player turn
         while True:
@@ -24,11 +25,14 @@ class Game:
             elif action == 's':
                 break
             elif action == 'p':
-                self.player.measure_hand()
+                if (self.player.measure_used):
+                    print("No more peeking!!! :(") 
+                else:
+                    self.player.measure_hand()
             if (self.player.calculate_score() > 21):
                 break
 
-        if not self.player.measure_used: self.player.measure_hand()
+        self.player.measure_hand()
         self.player.calculate_score()
 
         # Dealer turn

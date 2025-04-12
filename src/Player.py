@@ -11,9 +11,6 @@ class Player:
         self.hand.append(card)
     
     def measure_hand(self):
-        if self.measure_used:
-            print("No more peeking!!! :(") 
-            return
         self.measure_used = True
         for card in self.hand:
             if card.is_quantum and card.measured_value is None:
