@@ -16,7 +16,7 @@ class Dealer:
         aces=0
         for card in self.cards:
             self.score+=card.get_value()
-            if card.get_rank=='A':
+            if card.name.upper() == "ACE":
                 aces+=1
         while total >21 and aces>0:
             total-=10
@@ -27,5 +27,6 @@ class Dealer:
     def isHitting(self):
         return self.score<16
     
+    # if dealer's score is > 21 they bust
     def is_bust(self):
         return self.score>21
