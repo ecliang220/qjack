@@ -3,6 +3,7 @@ import random
 from qiskit import QuantumCircuit
 from qiskit_aer import Aer
 from qiskit_aer import AerSimulator
+from qiskit import transpile
 
 
 class Suit(Enum):
@@ -96,17 +97,19 @@ class Card:
             self.measured_value = measurement_result
             return self.measured_value
 
-        # --- Qiskit Measurement Simulation ---
         qc = QuantumCircuit(1, 1)
-        qc.h(0)  # Superposition
+        qc.h(0)
         qc.measure(0, 0)
 
-        backend = Aer.get_backend('qasm_simulator')
-        job = execute(qc, backend, shots=1)
+        simulator = AerSimulator()
+        compiled_circuit = transpile(qc, simulator)
+        job = simulator.run(compiled_circuit, shots=1)
         result = job.result()
         counts = result.get_counts()
+        measured_bit = int(max(counts, key=counts.get))
+        self.measured_value = self.state[measured_bit]
+        return self.measured_value
 
-        measured_bit = int(max(counts, key=counts.get))  # 0 or 1
 
         # Choose based on bit outcome
         self.measured_value = self.state[measured_bit]
