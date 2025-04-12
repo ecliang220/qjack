@@ -1,0 +1,2 @@
+# qjack
+Quantum Blackjack
