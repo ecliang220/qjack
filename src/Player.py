@@ -38,9 +38,6 @@ class Player:
     def stick(self):
         self.is_sticking = True
 
-    def hit(self, card):
-        self.add_card(card)
-
     # For clean printout/logging
     def __str__(self):
         hand_str = ', '.join(str(card) for card in self.hand)
