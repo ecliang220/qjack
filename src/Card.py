@@ -1,6 +1,7 @@
 from enum import Enum
 import random
 from qiskit import QuantumCircuit, Aer, execute
+from qiskit_aer import AerSimulator
 
 
 class Suit(Enum):
