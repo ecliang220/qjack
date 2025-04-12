@@ -1,6 +1,11 @@
+from Dealer import Dealer
+from Deck import Deck
+from Player import Player
+
+
 class Game:
     def __init__(self):
-        self.player = Player()
+        self.player = Player('Bob the Builder')
         self.dealer = Dealer()
         self.deck = Deck()
         self.deck.shuffle()
