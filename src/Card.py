@@ -12,7 +12,7 @@ class Suit(Enum):
 class Card:
     def __init__(self, name: str, suit: Suit, is_quantum: bool = False, state: list = None):
         """
-        Initialize a card.
+        Initialize a card!
         
         :param name: Name of the card (e.g., "2", "10", "Ace", "King", etc.)
         :param suit: The card suit, an instance of the Suit enum.
