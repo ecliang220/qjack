@@ -2,7 +2,8 @@ from Game import Game
 
 
 def main():
-    qJackGame = Game()
+    playerName = input("Player Name: ")
+    qJackGame = Game(playerName)
     response = 'y'
     while (response == 'y'):
         qJackGame.play_round()

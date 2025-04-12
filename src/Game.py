@@ -4,8 +4,8 @@ from Player import Player
 
 
 class Game:
-    def __init__(self):
-        self.player = Player('Bob the Builder')
+    def __init__(self, playerName):
+        self.player = Player(playerName)
         self.dealer = Dealer()
         self.deck = Deck()
         self.deck.shuffle()
@@ -61,16 +61,16 @@ class Game:
         if self.player.is_bust:
             print("Dealer wins!")
         elif self.dealer.is_bust:
-            print("Player wins!")
+            print(f"{self.player.name} wins!")
         elif self.player.score > self.dealer.score:
-            print("Player wins!")
+            print(f"{self.player.name} wins!")
         elif self.player.score < self.dealer.score:
             print("Dealer wins!")
         else:
             print("It’s a tie!")
 
     def print_game_state(self):
-        print("\nPlayer's Hand:")
+        print(f"\n{self.player.name}'s Hand:")
         for card in self.player.hand:
             print(f" - {card}")
         print("\nDealer's Visible Card:")
