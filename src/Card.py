@@ -1,6 +1,7 @@
 from enum import Enum
 import random
-from qiskit import QuantumCircuit, Aer, execute
+from qiskit import QuantumCircuit
+from qiskit_aer import Aer
 from qiskit_aer import AerSimulator
 
 
