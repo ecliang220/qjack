@@ -26,7 +26,7 @@ pygame.init()
 screen_width = 1250
 screen_height = 670
 screen = pygame.display.set_mode((screen_width, screen_height)) 
-pygame.display.set_caption(f"{player_name}'s QJack")
+pygame.display.set_caption(f"{player_name}'s game of QJack")
 
 def ask_another_round():
     def on_count_me_in():
@@ -81,13 +81,15 @@ def load_card_images(card_folder="ui/cards"):
     card_images = {}
     for filename in os.listdir(card_folder):
         if filename.endswith(".png"):
-            key = filename.replace(".png", "")  # e.g., "2diamond"
+            key = filename.replace(".png", "") 
             image = pygame.image.load(os.path.join(card_folder, filename)).convert_alpha()
             image = pygame.transform.scale(image, (CARD_WIDTH, CARD_HEIGHT))
             card_images[key] = image
     return card_images
 
 card_images = load_card_images()
+logo_image = pygame.image.load("ui/cards/card_back.png").convert_alpha() 
+logo_image = pygame.transform.scale(logo_image, (CARD_WIDTH // 2, CARD_HEIGHT // 2)) 
 
 message = 'Welcome to QJack!'
 
@@ -142,6 +144,7 @@ while running:
 
     # Fill the screen with a color (green table background)
     screen.fill((0, 128, 0))
+    screen.blit(logo_image, (30, 20))
 
     message_surface = message_font.render(message, True, WHITE)
     message_rect = message_surface.get_rect(center=(screen_width // 2, 40))
@@ -157,7 +160,7 @@ while running:
     pygame.draw.rect(screen, GRAY, (30, player_card_y - 60, (screen_width - 60), CARD_HEIGHT + 80), border_radius=8, width=4)
 
     # Draw player's label
-    player_label = label_font.render(f"{game.player.name}'s Cards", True, BLACK)
+    player_label = label_font.render(f"{game.player.name}'s Hand", True, BLACK)
     player_label_rect = player_label.get_rect(center=(screen_width // 2, player_card_y - 30))  # Position above the player's cards
     screen.blit(player_label, player_label_rect)
 
