@@ -131,6 +131,13 @@ class Card:
     def get_quatum_low_value(self):
         return self.state[0]
 
-
+    def card_key(self) -> str:
+        return f"{self.name.lower()}_of_{self.suit.value.lower()}"
+        # if self.is_quantum:
+        #     return f"{self.name.lower()}_of_{self.suit.value}"
+        # elif self.name == 'Ace':
+        #     return f"ace_of_{self.suit.value}"
+        # else:
+        #     return f"{self.name}_of_{self.suit.value}"
 
 

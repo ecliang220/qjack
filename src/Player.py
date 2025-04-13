@@ -39,6 +39,26 @@ class Player:
         self.is_bust = total > 21
         return self.score
     
+    def calculate_tentative_score(self):
+        total = 0
+        ace_count = 0
+
+        for card in self.hand:
+            if card.is_quantum:
+                if card.measured_value == None:
+                    continue
+                else: value = card.measured_value
+            else: value = card.get_value()
+            if value == 11:
+                ace_count += 1
+            total += value
+
+        while total > 21 and ace_count > 0:
+            total -= 10
+            ace_count -= 1
+
+        return total
+    
     def stick(self):
         self.is_sticking = True
 
