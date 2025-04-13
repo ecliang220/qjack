@@ -8,7 +8,12 @@ class Dealer:
     # adds card to cards
     def add_card(self, card):
         self.cards.append(card)
-        self.calculate_score
+        self.calculate_score()
+        # Check for entanglement opportunity
+        if card.is_quantum:
+            same_type = [c for c in self.hand if c.name == card.name and c.is_quantum and c != card]
+            if same_type:
+                card.entangle_with(same_type)
 
     # calculates dealer score from list of cards
     def calculate_score(self):

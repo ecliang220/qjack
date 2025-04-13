@@ -9,6 +9,11 @@ class Player:
 
     def add_card(self, card):
         self.hand.append(card)
+        # Check for entanglement opportunity
+        if card.is_quantum:
+            same_type = [c for c in self.hand if c.name == card.name and c.is_quantum and c != card]
+            if same_type:
+                card.entangle_with(same_type)
     
     def measure_hand(self):
         self.measure_used = True

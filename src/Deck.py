@@ -23,4 +23,18 @@ class Deck:
         random.shuffle(self.cards)
 
     def deal(self, num_cards):
-        return [self.cards.pop() for _ in range(num_cards)]
+        rdealt_cards = [self.cards.pop() for _ in range(num_cards)]
+
+        # Detect and entangle matching quantum face cards
+        name_to_quantum_cards = {}
+
+        for card in rdealt_cards:
+            if card.is_quantum:
+                name_to_quantum_cards.setdefault(card.name, []).append(card)
+
+        for cards in name_to_quantum_cards.values():
+            if len(cards) >= 2:
+                # Entangle all with the first one
+                cards[0].entangle_with(cards[1:])
+
+        return rdealt_cards

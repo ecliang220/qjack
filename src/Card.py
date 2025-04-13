@@ -14,6 +14,7 @@ class Suit(Enum):
 
 
 class Card:
+    entangled_registry = {}  # Class-level shared state
     def __init__(self, name: str, suit: Suit, is_quantum: bool = False, state: list = None):
         """
         Initialize a card!
@@ -26,6 +27,7 @@ class Card:
         self.name = name
         self.suit = suit
         self.is_quantum = is_quantum
+        self.entangled_group_id = None  # Link to other entangled cards
         
         if is_quantum:
             # Quantum cards must have a list of possible states provided.
@@ -71,6 +73,22 @@ class Card:
             return self.measured_value
         else:
             return self.measured_value
+    def entangle_with(self, other_cards):
+        """
+        Entangles this card with a list of other same-name quantum cards.
+        All will share the same measurement outcome.
+        """
+        if not self.is_quantum:
+            return
+        group_id = f"{self.name}_{random.randint(1, int(1e9))}"
+
+        self.entangled_group_id = group_id
+        Card.entangled_registry[group_id] = [self]
+
+        for card in other_cards:
+            if card.name == self.name and card.is_quantum:
+                card.entangled_group_id = group_id
+                Card.entangled_registry[group_id].append(card)
 
     def measure(self, measurement_result: int = None) -> int:
         """
@@ -87,6 +105,14 @@ class Card:
         """
         if not self.is_quantum:
             return self.measured_value
+
+        # If part of entangled group and any value already measured
+        if self.entangled_group_id:
+            group = Card.entangled_registry[self.entangled_group_id]
+            existing_value = next((c.measured_value for c in group if c.measured_value is not None), None)
+            if existing_value is not None:
+                self.measured_value = existing_value
+                return self.measured_value
 
         if self.measured_value is not None:
             return self.measured_value
@@ -110,6 +136,10 @@ class Card:
         self.measured_value = self.state[measured_bit]
         return self.measured_value
 
+        # Sync to all entangled cards
+        if self.entangled_group_id:
+            for card in Card.entangled_registry[self.entangled_group_id]:
+                card.measured_value = self.measured_value
 
         # Choose based on bit outcome
         self.measured_value = self.state[measured_bit]
