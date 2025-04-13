@@ -105,7 +105,7 @@ LIGHT_GREEN = (194, 242, 209)
 LIGHT_PINK = (242, 194, 212)
 TRANSPARENT_BLACK = (0, 0, 0, 128) 
 
-button_width = 100
+button_width = 125
 button_height = 40
 bottom_margin = 20
 button_spacing = 40  # space between buttons
@@ -125,7 +125,7 @@ start_x = (screen_width - total_width) // 2
 # Create buttons
 hit_button = Button(start_x, y_pos, button_width, button_height, "Hit", font, LIGHT_GREEN, DARK_GRAY, BLACK)
 stay_button = Button(start_x + (button_width + button_spacing), y_pos, button_width, button_height, "Stay", font, LIGHT_PINK, DARK_GRAY, BLACK)
-peek_button = Button(start_x + 2 * (button_width + button_spacing), y_pos, button_width, button_height, "Peek", font, LAVENDER, DARK_GRAY, BLACK)
+peek_button = Button(start_x + 2 * (button_width + button_spacing), y_pos, button_width, button_height, "Measure", font, LAVENDER, DARK_GRAY, BLACK)
 
 buttons = [hit_button, stay_button, peek_button]
 
@@ -219,12 +219,17 @@ while running:
                 if btn.text == "Hit":
                     game.player.add_card(game.deck.deal(1)[0])
                     message = f"{player_name} hits!"
+                    # game.deck.entanglement_detected
+                    if (game.player.hand[-1].is_quantum and game.player.hand[-1].entangled_group_id != None):
+                        message += f" {game.player.hand[-1].name} Entanglement detected."
                     for card in game.player.hand:
                         print(card)
                     if game.player.calculate_score() > 21:
                         print("Player busts!")
                         message = ui_evaluate_winner()
                         ask_new_game = True
+                        for button in buttons:
+                            button.set_state("disabled")
                         # response = ask_another_round()
                 elif btn.text == "Stay":
                     message = f"{player_name} stays."
@@ -247,8 +252,10 @@ while running:
                     
                     game.print_game_state()
                     game.evaluate_winner()
+                    for button in buttons:
+                        button.set_state("disabled")
                     ask_new_game = True
-                elif btn.text == "Peek":
+                elif btn.text == "Measure":
                     if game.player.measure_used:
                         message = "No more peeking!"
                         print("No more peeking!")
@@ -260,6 +267,8 @@ while running:
                             print("Player busts!")
                             message = ui_evaluate_winner()
                             ask_new_game = True
+                            for button in buttons:
+                                button.set_state("disabled")
                             # response = ask_another_round()
                         for card in game.player.hand: print(card)
 
